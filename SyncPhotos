@@ -1,0 +1,37 @@
+# /bin/sh
+case $1 in
+   imac|iMac)
+      unmount_share="FALSE"
+      if [ ! -d "/Volumes/Pictures" ]; then
+          unmount_share="TRUE"
+          if ! osascript -e 'mount volume "smb://iMac27/Pictures"'; then
+	      echo "Error connecting to iMac27. Is it awake and available?"
+              exit 1
+          fi
+      fi
+      rsync -aAHNXxz --info=progress2 --fileflags --delete "/Volumes/PhotoDisk/Photos Library.photoslibrary" rsync://iMac27.local/Pictures
+      if [ "$unmount_share" = "TRUE" ]; then
+          umount "/Volumes/Pictures"
+      fi
+      ;;
+   backup)
+      Drive="$2"
+      if [ "$Drive" = "" ]; then
+          Drive="LaCie" 
+      fi
+      if [ -d "/Volumes/${Drive}" ]; then
+          echo "Backing up to "$Drive
+          rsync -aAHNXxz --info=progress2 --fileflags --delete "/Volumes/PhotoDisk/Photos Library.photoslibrary" "/Volumes/$Drive"
+      else
+	  echo "Backup drive: \""$Drive"\" not found. Is the backup drive attached?"
+	  echo "Usage: $0 backup backup_drive"
+	  echo "When no backup_drive is provided, then \"LaCie\" is assumed as the default."
+      fi
+      ;;
+   supermicro)
+      rsync -aAHXxz --password-file=$HOME/.rsyncpw --info=progress2 --delete "/Volumes/PhotoDisk/Photos Library.photoslibrary" tom@supermicro.local::Pictures
+      ;;
+   *)
+      echo "Usage: $0 {imac|supermicro|backup [backup_drive]}" 
+      ;;
+esac

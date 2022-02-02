@@ -1,0 +1,15 @@
+# /bin/sh
+case $1 in
+   imac)
+      sudo rsync -aAHNXxz --info=progress2 --fileflags --delete "rsync://iMac27.local/Pictures/Photos Library.photoslibrary" /Volumes/PhotoDisk
+      ;;
+   backup)
+      sudo rsync -aAHNXxz --info=progress2 --fileflags --delete "/Volumes/LaCie/Photos Library.photoslibrary" /Volumes/PhotoDisk
+      ;;
+   supermicro)
+      sudo rsync -aAHXxz --password-file=$HOME/.rsyncpw --info=progress2 --delete "tom@supermicro.local::Pictures/Photos Library.photoslibrary" /Volumes/PhotoDisk
+      ;;
+   *)
+      echo $"Usage: $0 {imac|supermicro|backup}" 
+      ;;
+esac
