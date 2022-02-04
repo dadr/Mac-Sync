@@ -28,7 +28,7 @@ So it will do one of three things:
 
 ## RestorePhotos
 
-This script is less refined (it won't wake up my wife's mac) and is mostly about remembering which commands can restore a corrupted or messed up library from one of the places it was synced to before.  I've rarely (only once) used this tool, so it is not as sophisticated as the first one.  It does not restore from an arbitrary drive.
+This script is less refined (it won't wake up my wife's mac) and is mostly about remembering which commands can restore a corrupted or messed up library from one of the places it was synced to before.  I've rarely (only once) used this tool, so it is not as sophisticated as the first one.  It does not restore from an arbitrary drive. 
 
 Usage: `RestorePhotos imac | supermicro | backup`
 
@@ -41,4 +41,6 @@ Usage: `rm-rsrc.sh [-hv --help --verbose] pix | directory-to-remove-forks`
 if you give no arguments or the help argument it show the  usage line.  I hardcoded "pix" to work with my photos library, but alternately, you can give it a directory as an argument instead of pix and it work from there instead.
 
 If you add the argument to be verbose then it tells you each file from which it removes a resource fork.
+
+Finally, the script will show you which directory it will scan and remove forks from, then wait 3 seconds before actually doing that.   If things look wrong, this is intended to give you a chance to `^C` out of the command before mayhem ensues. 
 
